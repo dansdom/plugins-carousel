@@ -1,0 +1,131 @@
+/* Reset Styles - respect to Eric Meyer!!! */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,hr,label,legend,table,caption,tbody,tfoot,thead,tr,th,td {margin:0;padding:0;border:0;outline:0;font-weight:inherit;font-size:100%;font-family:inherit;vertical-align:baseline}
+html {height:100%}
+body {min-height:101%;line-height:1;color:black;background:#fff;font:62.5%/1.4 Arial,Helvetica,sans-serif}
+h1,h2,h3,h4,h5,h6 {font-weight:bold}
+:focus {outline:0}
+ol,ul {list-style:none}
+table {border-collapse:separate;border-spacing:0/* tables still need 'cellspacing="0" */}
+caption,th,td {text-align:left; font-weight:normal}
+blockquote:before,blockquote:after,q:before,q:after {content:""}
+blockquote,q {quotes:"" ""}
+option,select {min-width:1.5em}
+ins {text-decoration:none}
+del {text-decoration:line-through}
+img,a img {border:0}
+
+h1 {font-size:2em;}
+h2 {font-size:1.6em;padding:0.5em 0}
+h3 {font-size:1.4em;padding:0.5em 0}
+h4 {font-size:1.3em;;padding:0.5em 0}
+p {font-size:1.3em;padding:0.5em 0px;}
+strong {font-weight:bold}
+pre {font-size:1.3em;color:#333;font-weight:bold}
+ol {}
+ol li {font-size:1.2em;list-style:decimal inside}
+
+#wrap {width:990px;margin:0 auto;background:#eee;color:#000;margin-bottom:20px}
+a {color:#000}
+
+
+
+/*  Masthead  */
+.masthead {padding-top:20px;background:#fff;width:100%;overflow:hidden}
+.nav {}
+.nav ul {}
+.nav li {display:block;font-weight:bold;font-size:1.3em;float:left;margin-right:5px}
+.nav li a {text-decoration:none;padding:10px;display:block;-moz-border-radius:8px 8px 0 0px;-webkit-border-radius:8px 8px 0 0px;border-radius:8px 8px 0 0px;}
+.nav li a:hover {background:#aaa}
+.nav .active a {background:#eee}
+
+/*  Page Content  */
+.content {padding:20px;overflow:hidden;clear:both;}
+.content ul {padding-left:3em}
+.content ul li {list-style-type:disc;font-size:1.3em}
+.content .viewRecent {display:block;width:250px;border:2px solid #fff;text-align:center;font-weight:bold;height:30px;line-height:30px;text-decoration:none;font-size:1.4em;margin:0 auto;background:#777}
+
+/*  Home Gallery  */
+.homeGallery {width:710px;height:300px;overflow:hidden;position:relative;margin:50px auto}
+.homeGallery h3 {text-align:center;padding:0.5em 0}
+.homeGalleryPane {width:600px;margin:0 auto;height:250px;overflow:hidden;position:relative;border:1px solid #444}
+.homeGalleryPane .shading {position:absolute;top:0;left:0;right:0;bottom:0;background:url(img/shading.png);z-index:1}
+.homeGallery img {display:none;}
+.homeGallery a {display:block;position:absolute;width:50px;height:20px;line-height:20px;font-weight:bold;text-decoration:none;border:1px solid #444;text-align:center}
+.homeGallery a.prev {top:150px;left:0}
+.homeGallery a.next {top:150px;right:0}
+.popupBox {background:#fff}
+
+/*  Projects Page  */
+.projectThumb {width:274px;padding:15px 15px;margin:5px;float:left;text-align:center;border:1px solid #888}
+.projectThumb h2 {padding:0.5em 0}
+.projectThumb a {padding:0.5em 0;font-weight:bold;font-size:1.1em}
+
+.projectsGallery {overflow:hidden;position:relative}
+.projectsGallery .scroller {width:400px;margin:0 auto}
+.projectsGallery .scroller img {cursor:pointer}
+.projectsGallery .next, .projectsGallery .prev {display:block;width:50px;height:30px;line-height:30px;text-align:center;position:absolute;top:50px;font-weight:bold;text-decoration:none;font-size:1.2em}
+.projectsGallery .next {right:20px;}
+.projectsGallery .prev {left:20px;}
+.projectsGallery li {height:117px;width:150px;}
+.projectsGallery li img {padding:5px}
+.projectBox {background:#fff;border:1px solid #ccc}
+.projectBox .galleryTitle h2 {text-align:center;line-height:30px}
+.projectBox .galleryTitle .popupClose {position:absolute;display:block;height:20px;width:50px;top:5px;right:0px;color:#000}
+.projectBox .galleryControls {text-align:center}
+.projectBox .galleryControls li {display:inline}
+.projectBox .galleryControls a {color:#000;font-weight:bold;text-decoration:none;padding:0 10px;line-height:40px;font-size:1.2em}
+
+
+/*  Plugins Page  */
+.pluginThumb {width:150px;height:500px;padding:5px 14px;margin:5px;float:left;border:1px solid #888}
+.pluginThumb h2 {padding:0.5em 0;text-align:center;}
+.pluginThumb a {padding:0.5em 0;font-weight:bold;font-size:1.1em}
+
+/*  Contact Page  */
+.contactForm fieldset {padding:20px 50px;}
+.contactForm label {display:block;width:120px;height:15px;float:left;clear:left;margin-top:10px;font-size:1.2em;font-weight:bold;text-transform:uppercase}
+.contactForm .text {display:block;width:150px;height:15px;float:left;margin-top:10px;border:1px solid #777;background:#ddd;}
+.contactForm textarea {float:left;margin-top:10px;border:1px solid #777;background:#ddd;}
+.contactForm .submit {clear:both;float:left;margin-left:120px;margin-top:10px;display:block;height:30px;line-height:30px;border:2px solid #777;background:#ddd;font-weight:bold;text-align:center;text-transform:uppercase}
+
+/* jQuery Plugin Pages  */
+.carouselDemoPage h2 {margin-top:20px}
+.carouselDemoPage strong {display:block;float:left;width:150px;clear:left}
+.carouselDemoPage hr, .tooltipDemoPage hr {border-bottom:1px solid #999;padding-top:20px;display:block;height:1px;clear:both}
+.demoCarousel {position:relative;padding-bottom:10px;}
+.demoCarousel .demoPane {margin:0 auto}
+.demoCarousel .demoPane li {background:#666}
+.demoCarousel .demoPane li img {padding:5px}
+.demoCarousel .demoPane li p {text-align:center;font-weight:bold;color:#fff;font-size:0.9em;padding:0}
+.demoCarousel .prevBtn, .demoCarousel .nextBtn {display:block;height:30px;line-height:30px;width:50px;text-align:center;font-weight:bold;position:absolute;top:30px;text-decoration:none;border:1px solid #666;color:#444}
+.demoCarousel .prevBtn {left:5px}
+.demoCarousel .nextBtn {right:5px;}
+.controlPane ul {width:100%;overflow:hidden;padding-top:5px;padding-left:25px}
+.controlPane ul li {color:#fff;list-style:none;display:block;height:18px;width:18px;float:left;background:#666;text-align:center;cursor:pointer;margin-right:5px;font-weight:bold;line-height:18px;font-size:11px;border:1px solid #666;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
+.controlPane ul li:hover {background:#fff;color:#666}
+.controlPane ul.controlList li.active {color:#666;background:#eee;border:1px solid #bbb}
+.controlPane ul.verticalList {width:20px;position:absolute;top:5px;right:5px;overflow:hidden;padding-top:0;padding-left:0}
+.controlPane ul.verticalList li {margin-bottom:5px}
+.demo5 .controlPane {position:absolute;top:6px;left:5px}
+.demo5 .controlPane ul {padding:0}
+.demo5 .controlPane ul li {width:20px;-moz-border-radius:3px 3px 0 0;-webkit-border-radius:3px 3px 0 0;border-radius:3px 3px 0 0;}
+#wrap .disabled {display:none}
+
+/* carousel stylings */
+.demo1, .demo2 {width:700px;margin:0 auto;padding:5px;background:#aaa;border:2px solid #ccc;overflow:hidden;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
+.demo5 {width:130px;padding:5px;background:#aaa;border:2px solid #ccc;overflow:hidden;padding-top:25px;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
+.demo1 .prev1, .demo1 .next1, .demo2 .prev2, .demo2 .next2 {z-index:3;height:20px;line-height:20px;font-weight:bold;font-size:1.1em;width:35px;background:#fff;top:35px;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
+.demo2 .prev2, .demo2 .next2 {top:50px;} 
+
+.demo3, .demo4 {width:130px;height:300px;padding:5px;background:#aaa;border:2px solid #ccc;float:left;margin-right:100px;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
+.demo4 {padding-right:30px}
+.demo4 {height:490px;}
+.demo3 .prev3, .demo3 .next3, .demo4 .prev4, .demo4 .next4 {z-index:5;background:#fff;font-weight:bold;font-size:1.1em;top:280px;height:20px;line-height:20px;font-size:1.1em;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
+.demo4 .prev4, .demo4 .next4 {top:470px}
+.demo3 .prev3, .demo4 .prev4 {left:5px}
+.demo3 .next3 {right:5px}
+.demo4 .next4 {right:30px}
+.demoinfo {float:left}
+
+/*  Footer  */
+.footer {clear:both;height:30px;background:#aaa;color:#fff;padding-left:20px}

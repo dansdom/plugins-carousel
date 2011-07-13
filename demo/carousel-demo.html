@@ -1,0 +1,387 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<title></title>
+          <!-- Meta tags -->
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />  <!-- w3c recomends this meta tag  -->
+	<meta http-equiv="Content-Script-Type" content="text/javascript" />  <!-- w3c recomends this meta tag  -->
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<meta name="copyright" content="2009" />
+	<meta name="author" content="Daniel Thomson" />
+	<meta name="rating" content="general" />
+	<meta name="robots" content="all" />
+        <!-- Stylesheets -->
+	<link rel="stylesheet" href="css/style.css" type="text/css" media="screen, projection" />
+	    <!-- Javascripts -->
+    <script language="javascript" type="text/javascript" src="js/jquery.js"></script>   
+    <script language="javascript" type="text/javascript" src="js/carousel.js"></script>    
+    <script type="text/javascript">
+    	$(document).ready(function(){
+	
+	
+		$(".projectsGallery").carousel({
+					vertical: false,
+					scrollNext: ".next",
+					scrollPrev: ".prev",
+					scrollNum: 3,
+					circular: false,
+					scrollVisible: 4,
+					itemHeight: 127,
+					itemWidth: 160,
+					scrollSpeed : 1000
+					});
+	
+		$(".demo1").carousel({
+					vertical: false,
+					scrollNext: ".next1",
+					scrollPrev: ".prev1",
+					scrollNum: 3,
+					circular: false,
+					scrollVisible: 5,
+					itemHeight: 90,
+					itemWidth: 130,
+					scrollSpeed : 1000
+					});
+	
+		$(".demo2").carousel({
+					vertical: false,
+					scrollPane : ".demo2 .demoPane",
+					scrollNext: ".next2",
+					scrollPrev: ".prev2",
+					scrollNum: 5,
+					circular: true,
+					scrollVisible: 5,
+					itemHeight: 115,
+					itemWidth: 130,
+					scrollSpeed : 500,
+					circular: false,
+					startPoint : 10,
+					controlPane: true,
+					controlList: ".controlList2"
+					});
+	
+		$(".demo3").carousel({
+					vertical: true,
+					scrollNext: ".next3",
+					scrollPrev: ".prev3",
+					scrollNum: 3,
+					circular: false,
+					scrollVisible: 3,
+					itemHeight: 90,
+					itemWidth: 130,
+					scrollSpeed : 500
+					});
+	
+		$(".demo4").carousel({
+					vertical: true,
+					scrollPane : ".demo4 .demoPane",
+					scrollNext: ".next4",
+					scrollPrev: ".prev4",
+					scrollNum: 4,
+					circular: true,
+					scrollVisible: 4,
+					itemHeight: 115,
+					itemWidth: 130,
+					scrollSpeed : 1500,
+					rotating: true,
+					rotatingSpeed: 1500,
+					rotatingDirection: "backward",
+					rotatingPause : 2000,
+					controlPane : true,
+					controlList: ".controlList4"
+					});
+	
+		$(".demo5").carousel({
+					vertical: true,
+					scrollPane : ".demo5 .demoPane",
+					scrollNum: 1,
+					scrollVisible: 1,
+					itemHeight: 115,
+					itemWidth: 130,
+					scrollSpeed : 0,
+					controlList: ".controlList5"
+					});	
+
+});
+    </script>
+
+</head>
+
+<body>
+
+      <div id="wrap">      	  
+
+      	  <div class="content">
+
+      	  		<div class="page carouselDemoPage">
+
+      	  			<h1>Carousel Plugin Demos</h1>
+      	  			<h2>Basic Horizontal Carousel</h2>      	  			
+      	  			<div class="demoCarousel demo1">
+      	  				<a href="" class="prevBtn prev1">prev</a>
+      	  				<div class="demoPane">
+      	  				 	 <ul>
+      	  				 	 	 <li><img src="img/clouds1.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds2.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds3.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds4.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds5.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds6.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds7.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds8.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds9.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds10.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds11.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds12.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds13.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds14.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds15.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds16.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds17.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds18.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds19.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds20.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds21.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds22.jpg" width="120" height="80" alt=""/></li>
+  				 	 		 </ul>
+						 </div>  <!-- end of scrollPane -->
+						 <a href="" class="nextBtn next1">next</a>
+      	  			</div>  <!-- end of demo1 -->
+      	  			<p>
+						<strong>vertical:</strong> false<br />
+						<strong>scrollNext:</strong> ".next1"<br /> 
+						<strong>scrollPrev:</strong> ".prev1"<br />
+						<strong>scrollNum:</strong> 3<br />
+						<strong>circular:</strong> false<br />
+						<strong>scrollVisible:</strong> 5<br />
+						<strong>itemHeight:</strong> 90<br />
+						<strong>itemWidth:</strong> 130<br />
+						<strong>scrollSpeed :</strong> 1000<br />
+      	  			</p>
+      	  			<hr />      	  			      	  			
+
+      	  			<h2>Horizontal Carousel with Control Pane and starting on the 10th item</h2>      	  			      	  			
+      	  			<div class="demoCarousel demo2">
+      	  				<a href="" class="prevBtn prev2">prev</a>
+      	  				<div class="demoPane">
+      	  				 	 <ul>
+      	  				 	 	 <li><img src="img/clouds1.jpg" width="120" height="80" alt=""/><p>picture 1</p></li>
+      	  				 	 	 <li><img src="img/clouds2.jpg" width="120" height="80" alt=""/><p>picture 2</p></li>
+      	  				 	 	 <li><img src="img/clouds3.jpg" width="120" height="80" alt=""/><p>picture 3</p></li>
+      	  				 	 	 <li><img src="img/clouds4.jpg" width="120" height="80" alt=""/><p>picture 4</p></li>
+      	  				 	 	 <li><img src="img/clouds5.jpg" width="120" height="80" alt=""/><p>picture 5</p></li>
+      	  				 	 	 <li><img src="img/clouds6.jpg" width="120" height="80" alt=""/><p>picture 6</p></li>
+      	  				 	 	 <li><img src="img/clouds7.jpg" width="120" height="80" alt=""/><p>picture 7</p></li>
+      	  				 	 	 <li><img src="img/clouds8.jpg" width="120" height="80" alt=""/><p>picture 8</p></li>
+      	  				 	 	 <li><img src="img/clouds9.jpg" width="120" height="80" alt=""/><p>picture 9</p></li>
+      	  				 	 	 <li><img src="img/clouds10.jpg" width="120" height="80" alt=""/><p>picture 10</p></li>
+      	  				 	 	 <li><img src="img/clouds11.jpg" width="120" height="80" alt=""/><p>picture 11</p></li>
+      	  				 	 	 <li><img src="img/clouds12.jpg" width="120" height="80" alt=""/><p>picture 12</p></li>
+      	  				 	 	 <li><img src="img/clouds13.jpg" width="120" height="80" alt=""/><p>picture 13</p></li>
+      	  				 	 	 <li><img src="img/clouds14.jpg" width="120" height="80" alt=""/><p>picture 14</p></li>
+      	  				 	 	 <li><img src="img/clouds15.jpg" width="120" height="80" alt=""/><p>picture 15</p></li>
+      	  				 	 	 <li><img src="img/clouds16.jpg" width="120" height="80" alt=""/><p>picture 16</p></li>
+      	  				 	 	 <li><img src="img/clouds17.jpg" width="120" height="80" alt=""/><p>picture 17</p></li>
+      	  				 	 	 <li><img src="img/clouds18.jpg" width="120" height="80" alt=""/><p>picture 18</p></li>
+      	  				 	 	 <li><img src="img/clouds19.jpg" width="120" height="80" alt=""/><p>picture 19</p></li>
+      	  				 	 	 <li><img src="img/clouds20.jpg" width="120" height="80" alt=""/><p>picture 20</p></li>
+      	  				 	 	 <li><img src="img/clouds21.jpg" width="120" height="80" alt=""/><p>picture 21</p></li>
+      	  				 	 	 <li><img src="img/clouds22.jpg" width="120" height="80" alt=""/><p>picture 22</p></li>
+  				 	 		 </ul>
+						 </div>  <!-- end of scrollPane -->
+						 <a href="" class="nextBtn next2">next</a>
+						 <div class="controlPane">
+							 <ul class="controlList2 controlList">
+		   	   			         <li><span>1</span></li>
+		   	   			         <li><span>2</span></li>
+		   	   			         <li><span>3</span></li>
+		   	   			         <li><span>4</span></li>
+		   	   			         <li><span>5</span></li>
+		   	   			         <li><span>6</span></li>
+		   	   			         <li><span>7</span></li>
+		   	   			         <li><span>8</span></li>
+		   	   			         <li><span>9</span></li>
+								 <li><span>10</span></li>
+								 <li><span>11</span></li>
+		   	   			         <li><span>12</span></li>
+		   	   			         <li><span>13</span></li>
+		   	   			         <li><span>14</span></li>
+		   	   			         <li><span>15</span></li>
+		   	   			         <li><span>16</span></li>
+		   	   			         <li><span>17</span></li>
+		   	   			         <li><span>18</span></li>
+		   	   			         <li><span>19</span></li>
+								 <li><span>20</span></li>
+								 <li><span>21</span></li>
+		   	   			         <li><span>22</span></li>
+							 </ul>
+   	   					 </div>
+      	  			</div>  <!-- end of demo2 -->
+      	  			<p>
+						<strong>vertical:</strong> false<br />
+						<strong>scrollNext:</strong> ".next2"<br />
+						<strong>scrollPrev:</strong> ".prev2"<br />
+						<strong>scrollNum:</strong> 5<br />
+						<strong>circular:</strong> false<br />
+						<strong>scrollVisible:</strong> 5<br />
+						<strong>itemHeight:</strong> 115<br />
+						<strong>itemWidth:</strong> 130<br />
+						<strong>scrollSpeed :</strong> 500<br />
+      	  			</p>
+      	  			<hr />
+      	  			
+      	  			<h2>Basic Vertical Carousel</h2>      	  		
+      	  			<div class="demoCarousel demo3">
+      	  				<a href="" class="prevBtn prev3">prev</a>
+      	  				<div class="demoPane">
+      	  				 	 <ul>
+      	  				 	 	 <li><img src="img/clouds1.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds2.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds3.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds4.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds5.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds6.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds7.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds8.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds9.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds10.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds11.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds12.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds13.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds14.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds15.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds16.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds17.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds18.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds19.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds20.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds21.jpg" width="120" height="80" alt=""/></li>
+      	  				 	 	 <li><img src="img/clouds22.jpg" width="120" height="80" alt=""/></li>
+  				 	 		 </ul>
+						 </div>  <!-- end of scrollPane -->
+						 <a href="" class="nextBtn next3">next</a>
+      	  			</div>  <!-- end of demo3 -->
+      	  			<div class="demoinfo">
+      	  			<p>
+						<strong>vertical:</strong> true<br />
+						<strong>scrollNext:</strong> ".next3"<br />
+						<strong>scrollPrev:</strong> ".prev3"<br />
+						<strong>scrollNum:</strong> 3<br />
+						<strong>circular:</strong> false<br />
+						<strong>scrollVisible:</strong> 3<br />
+						<strong>itemHeight:</strong> 90<br />
+						<strong>itemWidth:</strong> 130<br />
+						<strong>scrollSpeed :</strong> 500<br />
+      	  			</p>
+      	  			</div>
+      	  			<hr />
+
+      	  			<h2>Vertical Carousel with Backward Scrolling, Circular and on a Timer</h2>      	  			      	  			
+      	  			<div class="demoCarousel demo4">
+      	  				<a href="" class="prevBtn prev4">prev</a>
+      	  				<div class="demoPane">
+      	  				 	 <ul>
+      	  				 	 	 <li><img src="img/clouds1.jpg" width="120" height="80" alt=""/><p>picture 1</p></li>
+      	  				 	 	 <li><img src="img/clouds2.jpg" width="120" height="80" alt=""/><p>picture 2</p></li>
+      	  				 	 	 <li><img src="img/clouds3.jpg" width="120" height="80" alt=""/><p>picture 3</p></li>
+      	  				 	 	 <li><img src="img/clouds4.jpg" width="120" height="80" alt=""/><p>picture 4</p></li>
+      	  				 	 	 <li><img src="img/clouds5.jpg" width="120" height="80" alt=""/><p>picture 5</p></li>
+      	  				 	 	 <li><img src="img/clouds6.jpg" width="120" height="80" alt=""/><p>picture 6</p></li>
+      	  				 	 	 <li><img src="img/clouds7.jpg" width="120" height="80" alt=""/><p>picture 7</p></li>
+      	  				 	 	 <li><img src="img/clouds8.jpg" width="120" height="80" alt=""/><p>picture 8</p></li>
+      	  				 	 	 <li><img src="img/clouds9.jpg" width="120" height="80" alt=""/><p>picture 9</p></li>
+      	  				 	 	 <li><img src="img/clouds10.jpg" width="120" height="80" alt=""/><p>picture 10</p></li>
+      	  				 	 	 <li><img src="img/clouds11.jpg" width="120" height="80" alt=""/><p>picture 11</p></li>
+      	  				 	 	 <li><img src="img/clouds12.jpg" width="120" height="80" alt=""/><p>picture 12</p></li>
+      	  				 	 	 <li><img src="img/clouds13.jpg" width="120" height="80" alt=""/><p>picture 13</p></li>
+      	  				 	 	 <li><img src="img/clouds14.jpg" width="120" height="80" alt=""/><p>picture 14</p></li>
+      	  				 	 	 <li><img src="img/clouds15.jpg" width="120" height="80" alt=""/><p>picture 15</p></li>
+      	  				 	 	 <li><img src="img/clouds16.jpg" width="120" height="80" alt=""/><p>picture 16</p></li>
+      	  				 	 	 <li><img src="img/clouds17.jpg" width="120" height="80" alt=""/><p>picture 17</p></li>
+      	  				 	 	 <li><img src="img/clouds18.jpg" width="120" height="80" alt=""/><p>picture 18</p></li>
+  				 	 		 </ul>
+						 </div>  <!-- end of scrollPane -->
+						 <a href="" class="nextBtn next4">next</a>
+						 <div class="controlPane">
+							 <ul class="controlList4 controlList verticalList">
+		   	   			         <li><span>1</span></li>
+		   	   			         <li><span>2</span></li>
+		   	   			         <li><span>3</span></li>
+		   	   			         <li><span>4</span></li>
+		   	   			         <li><span>5</span></li>
+		   	   			         <li><span>6</span></li>
+		   	   			         <li><span>7</span></li>
+		   	   			         <li><span>8</span></li>
+		   	   			         <li><span>9</span></li>
+								 <li><span>10</span></li>
+								 <li><span>11</span></li>
+		   	   			         <li><span>12</span></li>
+		   	   			         <li><span>13</span></li>
+		   	   			         <li><span>14</span></li>
+		   	   			         <li><span>15</span></li>
+		   	   			         <li><span>16</span></li>
+		   	   			         <li><span>17</span></li>
+		   	   			         <li><span>18</span></li>
+							 </ul>
+   	   					 </div>
+      	  			</div>  <!-- end of demo4 -->
+      	  			<div class="demoinfo">
+      	  			<p>
+						<strong>vertical:</strong> true<br />
+						<strong>scrollNext:</strong> ".next5"<br />
+						<strong>scrollPrev:</strong> ".prev5"<br />
+						<strong>scrollNum:</strong> 4<br />
+						<strong>circular:</strong> true<br />
+						<strong>scrollVisible:</strong> 4<br />
+						<strong>itemHeight:</strong> 115<br />
+						<strong>itemWidth:</strong> 130<br />
+						<strong>scrollSpeed :</strong> 1500<br />
+      	  			</p>
+      	  			</div>
+      	  			<hr />
+      	  			
+      	  			<h2>One Item Carousel with Control Screen and animation set to 0, acting like a tabbing module</h2>      	  			
+      	  			<div class="demoCarousel demo5">
+      	  				<div class="demoPane">
+      	  				 	 <ul>
+      	  				 	 	 <li><img src="img/clouds1.jpg" width="120" height="80" alt=""/><p>picture 1</p></li>
+      	  				 	 	 <li><img src="img/clouds2.jpg" width="120" height="80" alt=""/><p>picture  2</p></li>
+      	  				 	 	 <li><img src="img/clouds3.jpg" width="120" height="80" alt=""/><p>picture  3</p></li>
+      	  				 	 	 <li><img src="img/clouds4.jpg" width="120" height="80" alt=""/><p>picture  4</p></li>
+      	  				 	 	 <li><img src="img/clouds5.jpg" width="120" height="80" alt=""/><p>picture  5</p></li>
+  				 	 		 </ul>
+						 </div>  <!-- end of scrollPane -->
+						 <div class="controlPane">
+							 <ul class="controlList5 controlList">
+		   	   			         <li><span>1</span></li>
+		   	   			         <li><span>2</span></li>
+		   	   			         <li><span>3</span></li>
+		   	   			         <li><span>4</span></li>
+		   	   			         <li><span>5</span></li>
+							 </ul>
+   	   					 </div>
+      	  			</div>  <!-- end of demo5 -->
+      	  			<p>
+						<strong>vertical:</strong> true<br />
+						<strong>scrollNext:</strong> ".next5"<br />
+						<strong>scrollPrev:</strong> ".prev5"<br />
+						<strong>scrollNum:</strong> 5<br />
+						<strong>circular:</strong> true<br />
+						<strong>scrollVisible:</strong> 5<br />
+						<strong>itemHeight:</strong> 115<br />
+						<strong>itemWidth:</strong> 130<br />
+						<strong>scrollSpeed :</strong> 1500<br />
+      	  			</p>
+      	  			<hr />      	  			      	  			
+
+      	  		</div>  <!-- end of page -->
+
+      	  </div>
+
+      </div>  <!-- end of wrap div -->
+
+</body>
+</html>
