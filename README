@@ -20,7 +20,7 @@ Here's a list of options for the carousel:
     itemHeight - integer: item height
     scrollNext - string: class of the next button
     scrollPrev - string: class of the previous button
-    scrollPane - string: choose the name of the scrollPane � if false then walk the DOM
+    scrollPane - string: choose the name of the scrollPane, if false then walk the DOM
     scrollSpeed - integer: speed at which the carousel scrolls
     scrollNum - integer: how many items the carousel scrolls
     scrollVisible - integer: how many items are visible in the carousel
@@ -31,4 +31,4 @@ Here's a list of options for the carousel:
     rotatingSpeed - integer: speed at which the carousel continually rotates
     rotatingDirection - string: rotation direction
     rotatingPause - integer: pause between rotation
-    controlList � string choose the control list selector
+    controlList - string: choose the control list selector
