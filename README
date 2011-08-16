@@ -1,10 +1,8 @@
-/*
-	jQuery Carousel Plugin
-	Copyright (c) 2011 Daniel Thomson
+jQuery Carousel Plugin
+Copyright (c) 2011 Daniel Thomson
 	
-	Licensed under the MIT license:
-	http://www.opensource.org/licenses/mit-license.php
-*/
+Licensed under the MIT license:
+http://www.opensource.org/licenses/mit-license.php
 
 version 1.1 - just a bit of optimisation of the code here, no functional changes
 version 1.2 - added new option to start at a nominated position
@@ -16,21 +14,21 @@ version 1.7 - added functionality to show a representation of the active element
 version 1.8 - fixed bug when controlPane is set to false, next/prev button not showing correct postion when control list has been defined. Took out the controlPane option altogether	
 			  the javascript runs fine whether its set or not
 
-HereÕs a list of options for the carousel:
+Here's a list of options for the carousel:
 
-    itemWidth Ð integer item width
-    itemHeight Ð integer item height
-    scrollNext Ð string class of the next button
-    scrollPrev Ð string class of the previous button
-    scrollPane Ð string choose the name of the scrollPane Ð if false then walk the DOM
-    scrollSpeed Ð integer speed at which the carousel scrolls
-    scrollNum Ð integer how many items the carousel scrolls
-    scrollVisible Ð integer how many items are visible in the carousel
-    circular Ð boolean will carousel scroll back to the beginning of the list when it is at the end
-    vertical Ð boolean is the carousel vertical or horizontal scrolling?
-    startPoint Ð integer choose the scroll number which the carousel starts on, 0 is default (nothing), 1 is the first item
-    rotating Ð boolean auto rotates the carousel continually
-    rotatingSpeed Ð integer speed at which the carousel continually rotates
-    rotatingDirection Ð string rotation direction
-    rotatingPause Ð integer pause between rotation
-    controlList Ð string choose the control list selector
+    itemWidth - integer: item width
+    itemHeight - integer: item height
+    scrollNext - string: class of the next button
+    scrollPrev - string: class of the previous button
+    scrollPane - string: choose the name of the scrollPane ï¿½ if false then walk the DOM
+    scrollSpeed - integer: speed at which the carousel scrolls
+    scrollNum - integer: how many items the carousel scrolls
+    scrollVisible - integer: how many items are visible in the carousel
+    circular - boolean: will carousel scroll back to the beginning of the list when it is at the end
+    vertical - boolean: is the carousel vertical or horizontal scrolling?
+    startPoint - integer: choose the scroll number which the carousel starts on, 0 is default (nothing), 1 is the first item
+    rotating - boolean: auto rotates the carousel continually
+    rotatingSpeed - integer: speed at which the carousel continually rotates
+    rotatingDirection - string: rotation direction
+    rotatingPause - integer: pause between rotation
+    controlList ï¿½ string choose the control list selector
