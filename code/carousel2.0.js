@@ -1,4 +1,22 @@
-// test jQuery plugin
+/*
+	jQuery Carousel Plugin
+	Copyright (c) 2011 Daniel Thomson
+	
+	Licensed under the MIT license:
+	http://www.opensource.org/licenses/mit-license.php
+*/
+
+// version 1.1 - just a bit of optimisation of the code here, no functional changes
+// version 1.2 - added new option to start at a nominated position
+// version 1.3 - added option to declare a css selector for the scroll pane this will enable the HTML structure to be more flexible. If this value is false then HTML structure has to be precise
+// version 1.4 - modified the extend method to create a new object 'opts' that doesn't destroy the settings object. I will think about creating an 'opts' method so that the settings can be modified outside of the script
+// version 1.5 - bug fixing and JSLint, optimised code and compacted all function 'var' statements
+// version 1.6 - added options to have the carousel on a continual rotation (either forward or backward - forward by default) -  I have made it to work only if circular = true
+// version 1.7 - added functionality to show a representation of the active elements in the carousel
+// version 1.8 - fixed bug when controlPane is set to false, next/prev button not showing correct postion when control list has been defined. Took out the controlPane option altogether
+// version 1.9 - added option to use the arrow keys to cntrol the movement of the carousel
+//				 the javascript runs fine whether its set or not
+// version 2.0 - refactored the script to use the new plugin architecture https://github.com/dansdom/plugins-template-v2
 
 (function ($) {
 	// this ones for you 'uncle' Doug!
