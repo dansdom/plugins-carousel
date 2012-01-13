@@ -145,7 +145,7 @@
 			this.controlListState();
 
 			//  *** navigation functions here: ***
-			$(this.opts.scrollNext).click(function()
+			$(this.opts.scrollNext).bind('click.' + this.namespace, function()
 			{
 				//  *** find the left/top scroll position of the carousel ***
 				container.findScrollPos("next");
@@ -179,7 +179,7 @@
 				return false;
 			});
 
-			$(this.opts.scrollPrev).click(function()
+			$(this.opts.scrollPrev).bind('click.' + this.namespace, function()
 			{
 				//  *** find the left/top scroll position of the carousel ***
 				container.findScrollPos("prev");
@@ -216,7 +216,7 @@
 			// add arrow events
 			if (this.opts.arrowControls == true)
 			{
-				$(document).keydown(function(e)
+				$(document).bind('keydown.' + this.namespace, function(e)
 				{
 					if (e.keyCode == '39')
 					{
@@ -231,7 +231,7 @@
 
 
 			// control list navigation functions
-			container.el.controlList.children().click(function()
+			container.el.controlList.children().bind('click.' + this.namespace, function()
 			{
                 // find the index of clicked item
                 var controlIndex = $(this).parent().children().index($(this)) + 1,
