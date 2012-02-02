@@ -21,15 +21,6 @@
 (function ($) {
 	// this ones for you 'uncle' Doug!
 	'use strict';
-	// just a logging function to output logging without danger of breaking the script
-	var consoleLog = function(msg)
-	{
-		// turn this off for production code
-		var debugMode = true;
-		if (console && console.log && debugMode === true) {
-			console.log(msg);
-		}
-	};
 	
 	// Plugin namespace definition
 	$.Carousel = function (options, element, callback)
@@ -720,7 +711,6 @@
 			// carousel now styled!!!
 		},
 		destroy : function() {
-			consoleLog("unbinding namespaced events");
 			this.el.unbind("."+this.namespace);
 		}
 	};
