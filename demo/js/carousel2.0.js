@@ -349,6 +349,9 @@
 				// set position variables for the carousel
 				this.el.scrollPos = -startPosition;
 				this.el.animationEnd = this.el.scrollPos;
+			},
+			else {
+				this.opts.startPoint = 1;
 			}
 		},
 		////////////////////////////////////////////////
