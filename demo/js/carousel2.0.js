@@ -1,6 +1,7 @@
 /*
 	jQuery Carousel Plugin
 	Copyright (c) 2011 Daniel Thomson
+	https://github.com/dansdom/plugins-carousel
 	
 	Licensed under the MIT license:
 	http://www.opensource.org/licenses/mit-license.php
@@ -64,9 +65,6 @@
 	// plugin functions go here
 	$.Carousel.prototype = {
 		init : function() {
-			// each box calling the plugin now has the variable name: container
-			var container = this;
-			
 			
 			/////////////////////////
 			// start plugin stuff  //
@@ -88,7 +86,7 @@
 			this.el.controlList = $(this.opts.controlList);
 			// setup carousel tail before adding style and event handling
 			if (this.opts.circular === true) {
-				container.addTail();
+				this.addTail();
             }
             // set the prev/next buttons
             this.el.scrollNext = $(this.opts.scrollNext);
@@ -99,19 +97,21 @@
 			this.el.scrollNum = this.opts.scrollNum;
 			this.el.scrollVisible = this.opts.scrollVisible;
 			this.el.scrollPos = 0;
+			// if the start point is 0, then set it to 1. this fixes my terrible setStartPos function
+			if (this.opts.startPoint === 0) {
+				this.opts.startPoint = 1;
+			}
 			
-
 			// set the dimensions of the carousel
 			this.setDimensions();
 			// stlye carousel
 			this.styleList();
 
 			// check start point and adjust accordingly
-            this.setStartPos();        
+            this.setStartPos(this.opts.startPoint);        
 
             // set up rotating functionality. check that all the options that are needed are in place for it
-			if (this.opts.rotating === true && this.opts.circular === true)
-			{
+			if (this.opts.rotating === true && this.opts.circular === true) {
                 // start the rotation
                 this.el.rotateTimer = 0;
                 this.rotation();
@@ -119,126 +119,9 @@
             // if there is a control pane then change control pane state here
 			this.controlListState();
 
-
-			//  **************************************
-			//  *** element bindings here
-			//  *** navigation functions here:
-			$(this.opts.scrollNext).bind('click.' + this.namespace, function()
-			{
-				//  *** find the left/top scroll position of the carousel ***
-				container.findScrollPos("next");
-
-				//  *** find if at end position ***
-				if (container.opts.circular === false)
-				{
-				    container.findEndPos("next");
-				}
-				else
-				{
-					container.findEndPosCircular("next");
-				}
-
-				// note: took out if statement to test if control pane is set, just running function and will work - no need for the option anymore
-                container.controlListState();
-
-				//  *** animate ul to correct position ***
-				container.animateList();
-
-				// find next animation stop point
-				container.el.animationEnd = container.el.scrollPos;
-
-                // if the carousel is on a timer then clear the timeout and then set it again at the end of the animation
-				if (container.opts.rotating === true)
-				{
-                    clearTimeout(container.el.rotateTimer);
-                    container.el.rotateTimer = setTimeout(function(){container.rotation();}, container.opts.rotatingPause);
-                }
-
-				return false;
-			});
-
-			$(this.opts.scrollPrev).bind('click.' + this.namespace, function()
-			{
-				//  *** find the left/top scroll position of the carousel ***
-				container.findScrollPos("prev");
-
-				//  *** find if at end position ***
-				if (container.opts.circular === false)
-				{
-				    container.findEndPos("prev");
-				}
-				else
-				{
-					container.findEndPosCircular("prev");
-				}
-
-				// note: took out if statement to test if control pane is set, just running function and will work - no need for the option anymore
-                container.controlListState();
-
-				//  *** animate ul to correct position ***
-				container.animateList();
-
-				// find next animation stop point
-				container.el.animationEnd = container.el.scrollPos;
-
-                // if the carousel is on a timer then clear the timeout and then set it again at the end of the animation
-				if (container.opts.rotating === true)
-				{
-                    clearTimeout(container.el.rotateTimer);
-                    container.el.rotateTimer = setTimeout(function(){container.rotation();}, container.opts.rotatingPause);
-                }
-
-				return false;
-			});
+			// bind the navigation controls
+			this.bindControls();
 			
-			// add arrow events
-			if (this.opts.arrowControls == true)
-			{
-				$(document).bind('keydown.' + this.namespace, function(e)
-				{
-					if (e.keyCode == '39')
-					{
-						container.el.find(container.opts.scrollNext).click(); 
-					}
-					if (e.keyCode == '37')
-					{
-						container.el.find(container.opts.scrollPrev).click();
-					}
-				});
-			}
-
-
-			// control list navigation functions
-			container.el.controlList.children().bind('click.' + this.namespace, function()
-			{
-                // find the index of clicked item
-                var controlIndex = $(this).parent().children().index($(this)) + 1,
-                    oldCount = container.el.counter;
-
-                // set a new counter position
-                container.el.counter = controlIndex;
-
-                // if there is a control pane then change control pane state here
-				container.controlListState();
-
-				// need to animate the carousel with the new index from the control list
-				// set the new scroll position and then findthe end points as per next and prev button
-				container.setControlMovement(controlIndex, oldCount);
-
-				//  *** animate ul to correct position ***
-				container.animateList();
-				
-				// find next animation stop point
-				container.el.animationEnd = container.el.scrollPos;
-				
-				// if the carousel is on a timer then clear the timeout and then set it again at the end of the animation
-				if (container.opts.rotating === true)
-				{
-                    clearTimeout(container.el.rotateTimer);
-                    container.el.rotateTimer = setTimeout(function(){container.rotation();}, container.opts.rotatingPause);
-                }
-            });
-
 			/////////////////////////
 			// end of plugin stuff //
 			/////////////////////////
@@ -278,8 +161,10 @@
 
 			//  *** stlye carousel ***
 			this.styleList();
+
 			// manually set the position of the list
-			this.el.scrollPos = (this.el.counter - 1) * -this.el.itemDimension;
+			this.setStartPos(this.el.counter);
+			
 			if (this.opts.vertical === false) {
 				this.el.theList.css({left : this.el.scrollPos});
 			}
@@ -290,77 +175,73 @@
 		//////////////////////////////////////////////
 		// set the start position of the carousel   //
 		//////////////////////////////////////////////
-		setStartPos : function()
-		{
+		setStartPos : function(position) {
+
 			 var multiplier,
 				 actualStart,
 				 startPosition;
-			 if (this.opts.startPoint !== 0) {
-				// see if counter is larger than carouselSize and then set the actual starting position if carousel is circular
-				if (Math.abs(this.opts.startPoint) > this.el.carouselSize && this.opts.circular === true) {
-					// trim startPoint
-					if (this.opts.startPoint > 0) {
-						multiplier = Math.floor(this.opts.startPoint / this.el.carouselSize);
-						actualStart = this.opts.startPoint - (this.el.carouselSize * multiplier);
-					}
-					else {
-						multiplier = Math.ceil(this.opts.startPoint / this.el.carouselSize);
-						actualStart = (this.opts.startPoint - (this.el.carouselSize * multiplier)) + this.el.carouselSize;
-					}
+
+			
+			// see if counter is larger than carouselSize and then set the actual starting position if carousel is circular
+			if (Math.abs(position) > this.el.carouselSize && this.opts.circular === true) {
+				// trim startPoint
+				if (position > 0) {
+					multiplier = Math.floor(position / this.el.carouselSize);
+					actualStart = position - (this.el.carouselSize * multiplier);
 				}
-				// if starting point is outside the range of a linear carousel
-				else if ((this.opts.startPoint > this.el.carouselSize || this.opts.startPoint < 0) && this.opts.circular === false) {
-					actualStart = 1;
-					//alert("starting position is outside the carousel range. Please set /'startPoint/' ");
-				}
-				// if its inside the range of the carousel
 				else {
-					if (this.opts.startPoint > 0) {
-						actualStart = this.opts.startPoint;
-					}
-					else {
-						actualStart = this.opts.startPoint + this.el.carouselSize;
-					}
+					multiplier = Math.ceil(position / this.el.carouselSize);
+					actualStart = (position - (this.el.carouselSize * multiplier)) + this.el.carouselSize;
 				}
+			}
+			// if starting point is outside the range of a linear carousel
+			else if ((position > this.el.carouselSize || position < 0) && this.opts.circular === false) {
+				actualStart = 1;
+				//alert("starting position is outside the carousel range. Please set /'startPoint/' ");
+			}
+			// if its inside the range of the carousel
+			else {
+				if (position > 0) {
+					actualStart = position;
+				}
+				else {
+					actualStart = position + this.el.carouselSize;
+				}
+			}
 	
-				// set new scrollPos
-				this.el.counter = actualStart;
-				// set the start position in pixels
-				if (this.opts.circular === true) {
-					startPosition = ((this.el.counter + this.el.scrollVisible) * this.el.itemDimension) - this.el.itemDimension;
-				}
-				else {
-					if (this.el.counter > (this.el.carouselSize - this.el.scrollVisible)) {
-						this.el.counter = this.el.carouselSize - this.el.scrollVisible + 1;
-						$(this.opts.scrollNext).addClass("disabled");
-					}
-					if (this.el.counter > 1) {
-						$(this.opts.scrollPrev).removeClass("disabled");
-					}
-					startPosition = (this.el.counter * this.el.itemDimension) - this.el.itemDimension;
-				}
-	
-				// set css position of the ul
-				if (this.opts.vertical === true) {
-					this.el.theList.css("top", -startPosition + "px");
-				}
-				else {
-					this.el.theList.css("left", -startPosition + "px");
-				}
-				// set position variables for the carousel
-				this.el.scrollPos = -startPosition;
-				this.el.animationEnd = this.el.scrollPos;
+			// set new scrollPos
+			this.el.counter = actualStart;
+			// set the start position in pixels
+			if (this.opts.circular === true) {
+				startPosition = ((this.el.counter + this.el.scrollVisible) * this.el.itemDimension) - this.el.itemDimension;
 			}
 			else {
-				this.opts.startPoint = 1;
+				if (this.el.counter > (this.el.carouselSize - this.el.scrollVisible)) {
+					this.el.counter = this.el.carouselSize - this.el.scrollVisible + 1;
+					$(this.opts.scrollNext).addClass("disabled");
+				}
+				if (this.el.counter > 1) {
+					$(this.opts.scrollPrev).removeClass("disabled");
+				}
+				startPosition = (this.el.counter * this.el.itemDimension) - this.el.itemDimension;
 			}
+	
+			// set css position of the ul
+			if (this.opts.vertical === true) {
+				this.el.theList.css("top", -startPosition + "px");
+			}
+			else {
+				this.el.theList.css("left", -startPosition + "px");
+			}
+			// set position variables for the carousel
+			this.el.scrollPos = -startPosition;
+			this.el.animationEnd = this.el.scrollPos;
 		},
-		////////////////////////////////////////////////
-		// find where the carousel is scrolling to    //
-		////////////////////////////////////////////////
-		// find out whether carousel has reached the end
-		findEndPos : function(direction)
-		{
+		///////////////////////////////////////////////////
+		// find where the carousel is scrolling to 		 //
+		// find out whether carousel has reached the end //
+		///////////////////////////////////////////////////
+		findEndPos : function(direction) {
 			// forward motion
 			if (direction == "next") {
 				// check to see if carousel is going to scroll to the end of the list
@@ -396,8 +277,7 @@
 			}
 		},
 		// Find out if carousel movement is going into the tail if circular
-		findEndPosCircular : function(direction)
-		{
+		findEndPosCircular : function(direction) {
 			var resetPos;
 			if (direction == "next") {
 				if ((this.el.counter + this.el.scrollNum) > this.el.carouselSize) {
@@ -431,8 +311,7 @@
 		///////////////////////////////////////////////////////////
 		// find carousel current position                        //
 		///////////////////////////////////////////////////////////
-		findScrollPos : function(direction)
-		{
+		findScrollPos : function(direction) {
 			if (this.opts.vertical === false) {
 				// stop previous animtation running first
 				this.el.theList.stop();
@@ -461,8 +340,9 @@
 		/////////////////////////////////////////////////////////
 		// animate carousel                                    //
 		/////////////////////////////////////////////////////////
-		animateList : function()
-		{
+		animateList : function() {
+			//console.log(this.el.counter);
+			//console.log(this.el.scrollPos);
 			if (this.opts.vertical === false) {
 				this.el.theList.animate({left : this.el.scrollPos}, this.opts.scrollSpeed);
 			}
@@ -473,12 +353,15 @@
 		/////////////////////////////////////////////////////////////////////
 		// set the movement of the carousel using the control list         //
 		/////////////////////////////////////////////////////////////////////
-		setControlMovement : function(newPosition, oldPosition)
-		{
+		setControlMovement : function(newPosition, oldPosition) {
 			// this will set a new animation movement based on the control list
 			// goal - find the carousel.scrollPos
+			//console.log('new position: ' + newPosition + ', old position: ' + oldPosition);
 			var itemDimension,
 				overflow;
+
+			this.el.counter = newPosition;
+
 			// find the item dimension for scrolling
 			if (this.opts.vertical === true) {
 				itemDimension = this.opts.itemHeight;
@@ -505,19 +388,21 @@
 			// if the new position is at the end of the non-circular carousel then stop at last visible place
 			if (newPosition > (this.el.carouselSize - (this.el.scrollVisible - 1)) && this.opts.circular === false) {
 				newPosition = this.el.carouselSize - (this.el.scrollVisible - 1);
-				this.el.counter = this.el.carouselSize - (this.el.scrollVisible - 1);
-				this.el.controlList.children(":gt(" + (newPosition-2) + ")").addClass("active");
+				this.el.controlList.children(":gt(" + (newPosition - 2) + ")").addClass("active");
 			}
+			
 			// set new scroll position
 			var controlScroll = (newPosition - oldPosition) * itemDimension;
+			if (this.opts.circular === true) {
+				controlScroll = (newPosition - oldPosition) * itemDimension;
+			}
 			//console.log("scroll: "+controlScroll+", scrollLength: "+itemDimension);
 			this.el.scrollPos = this.el.scrollPos - controlScroll;
 		},
 		/////////////////////////////////////////////////////////////////////
 		// auto rotate function to set continual movement of carousel      //
 		/////////////////////////////////////////////////////////////////////
-		rotation : function()
-		{
+		rotation : function() {
 			// define container for the anonymous functions here
 			var container = this;
 			this.el.rotateTimer = setTimeout(function(){container.rotation();}, (this.opts.rotatingSpeed + this.opts.rotatingPause));
@@ -556,8 +441,7 @@
 		//////////////////////////////////////////////////////////
 		// if carousel is circular then add the tail to it      //
 		//////////////////////////////////////////////////////////
-		addTail : function()
-		{
+		addTail : function() {
 			for (var i=0; i < this.opts.scrollVisible; i++)
 			{
 				var lastIndex = "li:eq(" + (this.el.carouselSize-1) + ")",
@@ -572,8 +456,7 @@
 		///////////////////////////////////////////////////
 		// change control list state                     //
 		///////////////////////////////////////////////////
-		controlListState : function()
-		{
+		controlListState : function() {
 			//console.log(container.counter);
 			var controlLength = this.opts.scrollVisible,
 				controlItems = this.el.controlList.children();
@@ -594,10 +477,110 @@
 			}
 		},
 		///////////////////////////////////////////////////
+		// bind the controls to the carousel             //
+		///////////////////////////////////////////////////
+		bindControls : function() {
+
+			// each box calling the plugin now has the variable name: container
+			var container = this;
+
+			$(this.opts.scrollNext).bind('click.' + this.namespace, function() {
+				//  *** find the left/top scroll position of the carousel ***
+				container.findScrollPos("next");
+
+				//  *** find if at end position ***
+				if (container.opts.circular === false) {
+				    container.findEndPos("next");
+				}
+				else {
+					container.findEndPosCircular("next");
+				}
+
+				// note: took out if statement to test if control pane is set, just running function and will work - no need for the option anymore
+                container.controlListState();
+				//  *** animate ul to correct position ***
+				container.animateList();
+				// find next animation stop point
+				container.el.animationEnd = container.el.scrollPos;
+
+                // if the carousel is on a timer then clear the timeout and then set it again at the end of the animation
+				if (container.opts.rotating === true) {
+                    clearTimeout(container.el.rotateTimer);
+                    container.el.rotateTimer = setTimeout(function(){container.rotation();}, container.opts.rotatingPause);
+                }
+
+				return false;
+			});
+
+			$(this.opts.scrollPrev).bind('click.' + this.namespace, function() {
+				//  *** find the left/top scroll position of the carousel ***
+				container.findScrollPos("prev");
+
+				//  *** find if at end position ***
+				if (container.opts.circular === false) {
+				    container.findEndPos("prev");
+				}
+				else {
+					container.findEndPosCircular("prev");
+				}
+
+				// note: took out if statement to test if control pane is set, just running function and will work - no need for the option anymore
+                container.controlListState();
+				//  *** animate ul to correct position ***
+				container.animateList();
+				// find next animation stop point
+				container.el.animationEnd = container.el.scrollPos;
+
+                // if the carousel is on a timer then clear the timeout and then set it again at the end of the animation
+				if (container.opts.rotating === true) {
+                    clearTimeout(container.el.rotateTimer);
+                    container.el.rotateTimer = setTimeout(function(){container.rotation();}, container.opts.rotatingPause);
+                }
+
+				return false;
+			});
+			
+			// add arrow events
+			if (this.opts.arrowControls == true) {
+				$(document).bind('keydown.' + this.namespace, function(e) {
+					if (e.keyCode == '39') {
+						container.el.find(container.opts.scrollNext).click(); 
+					}
+					if (e.keyCode == '37') {
+						container.el.find(container.opts.scrollPrev).click();
+					}
+				});
+			}
+
+			// control list navigation functions
+			container.el.controlList.children().bind('click.' + this.namespace, function() {
+                // find the index of clicked item
+                var controlIndex = $(this).parent().children().index($(this)) + 1,
+                    oldCount = container.el.counter;
+
+                // set a new counter position
+                container.el.counter = controlIndex;
+                // if there is a control pane then change control pane state here
+				container.controlListState();
+				// need to animate the carousel with the new index from the control list
+				// set the new scroll position and then findthe end points as per next and prev button
+				container.setControlMovement(controlIndex, oldCount);
+				//  *** animate ul to correct position ***
+				container.animateList();
+				// find next animation stop point
+				container.el.animationEnd = container.el.scrollPos;
+				
+				// if the carousel is on a timer then clear the timeout and then set it again at the end of the animation
+				if (container.opts.rotating === true) {
+                    clearTimeout(container.el.rotateTimer);
+                    container.el.rotateTimer = setTimeout(function(){container.rotation();}, container.opts.rotatingPause);
+                }
+            });
+		},
+		///////////////////////////////////////////////////
 		// add css to the carousel                       //
 		///////////////////////////////////////////////////
-		styleList : function()
-		{
+		styleList : function() {
 			// style elements in the carousel
 			var carouselWidth;
 			
