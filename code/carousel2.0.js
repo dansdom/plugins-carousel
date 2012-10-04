@@ -35,8 +35,7 @@
 		this.opts = $.extend(true, {}, $.Carousel.settings, options);
 		this.init();
 		// run the callback function if it is defined
-		if (typeof callback === "function")
-		{
+		if (typeof callback === "function") {
 			callback.call();
 		}
 	};
@@ -59,7 +58,8 @@
         'rotatingDirection': 'forward',	// rotation direction
         'rotatingPause' : 5000,			// pause between rotation
         'controlList' : '.controller',	// choose the control list selector
-		'arrowControls' : false			// allow arrows to control the carousel
+		'arrowControls' : false,		// allow arrows to control the carousel
+		'controlEvent' : 'click'		// support for touch devices i.e. touchStart
 	};
 	
 	// plugin functions go here
@@ -484,7 +484,7 @@
 			// each box calling the plugin now has the variable name: container
 			var container = this;
 
-			$(this.opts.scrollNext).bind('click.' + this.namespace, function() {
+			$(this.opts.scrollNext).bind(this.opts.controlEvent + '.' + this.namespace, function() {
 				//  *** find the left/top scroll position of the carousel ***
 				container.findScrollPos("next");
 
@@ -512,7 +512,7 @@
 				return false;
 			});
 
-			$(this.opts.scrollPrev).bind('click.' + this.namespace, function() {
+			$(this.opts.scrollPrev).bind(this.opts.controlEvent + '.' + this.namespace, function() {
 				//  *** find the left/top scroll position of the carousel ***
 				container.findScrollPos("prev");
 
@@ -553,7 +553,7 @@
 			}
 
 			// control list navigation functions
-			container.el.controlList.children().bind('click.' + this.namespace, function() {
+			container.el.controlList.children().bind(this.opts.controlEvent + '.' + this.namespace, function() {
                 // find the index of clicked item
                 var controlIndex = $(this).parent().children().index($(this)) + 1,
                     oldCount = container.el.counter;
