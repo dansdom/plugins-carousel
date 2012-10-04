@@ -17,6 +17,7 @@
 // version 1.9 - added option to use the arrow keys to cntrol the movement of the carousel
 //				 the javascript runs fine whether its set or not
 // version 2.0 - refactored the script to use the new plugin architecture https://github.com/dansdom/plugins-template-v2
+//			   - added a resize function for when you want to change the size of the carousel
 
 (function ($) {
 	// this ones for you 'uncle' Doug!
@@ -63,71 +64,50 @@
 	// plugin functions go here
 	$.Carousel.prototype = {
 		init : function() {
-			// going to need to define this, as there are some anonymous closures in this function.
-			// something interesting to consider
+			// each box calling the plugin now has the variable name: container
 			var container = this;
 			
 			
 			/////////////////////////
 			// start plugin stuff  //
 			/////////////////////////
-			// do pluging stuff here
-			// *** declare object variables here: ***
-			// each box calling the plugin now has the variable name: container
 			this.el.counter = 1;
 
 			// allows user to set scrollPane
-			if (this.opts.scrollPane)
-			{
+			if (this.opts.scrollPane) {
 				this.el.scrollPane = $(this.opts.scrollPane);
 			}
-			else
-			{
+			else {
 				this.el.scrollPane = this.el.children("div");
 			}
+
 			// define the list and it's size
 			this.el.theList = this.el.scrollPane.children("ul");
 			this.el.carouselSize = this.el.theList.children("li").size();
 			// declare the control list
 			this.el.controlList = $(this.opts.controlList);
 			// setup carousel tail before adding style and event handling
-			if (this.opts.circular === true)
-			{
+			if (this.opts.circular === true) {
 				container.addTail();
             }
-            
-            // define the list and container item width and height
-            this.el.listItems = this.el.theList.children("li");
-			this.el.itemWidth = this.opts.itemWidth;
-			this.el.itemHeight = this.opts.itemHeight;
-			this.el.scrollNum = this.opts.scrollNum;
-			this.el.carouselWidth = this.el.carouselSize * this.el.itemWidth;
-			this.el.carouselHeight = this.el.carouselSize * this.el.itemHeight;
-
-            // set the scroll length based on height or width of list item
-			if (this.opts.vertical === true)
-			{
-				this.el.itemDimension = this.el.itemHeight;
-			}
-			else
-			{
-				this.el.itemDimension = this.el.itemWidth;
-			}
-			this.el.scrollLength = this.el.scrollNum * this.el.itemDimension;
-
-			this.el.scrollNext = $(this.opts.scrollNext);
+            // set the prev/next buttons
+            this.el.scrollNext = $(this.opts.scrollNext);
 			this.el.scrollPrev = $(this.opts.scrollPrev);
+			// define the list
+			this.el.listItems = this.el.theList.children("li");
+			// number of scroll items
+			this.el.scrollNum = this.opts.scrollNum;
 			this.el.scrollVisible = this.opts.scrollVisible;
 			this.el.scrollPos = 0;
+			
 
-
-			//  *** stlye carousel ***
+			// set the dimensions of the carousel
+			this.setDimensions();
+			// stlye carousel
 			this.styleList();
 
 			// check start point and adjust accordingly
-            this.setStartPos();
-               
-            //console.log(this.el.counter);
+            this.setStartPos();        
 
             // set up rotating functionality. check that all the options that are needed are in place for it
 			if (this.opts.rotating === true && this.opts.circular === true)
@@ -136,11 +116,13 @@
                 this.el.rotateTimer = 0;
                 this.rotation();
             }
-               
             // if there is a control pane then change control pane state here
 			this.controlListState();
 
-			//  *** navigation functions here: ***
+
+			//  **************************************
+			//  *** element bindings here
+			//  *** navigation functions here:
 			$(this.opts.scrollNext).bind('click.' + this.namespace, function()
 			{
 				//  *** find the left/top scroll position of the carousel ***
@@ -261,16 +243,49 @@
 			// end of plugin stuff //
 			/////////////////////////
 			
-			
-			
 			// this seems a bit hacky, but for now I will unbind the namespace first before binding
 			this.destroy();
-			
-			
-			
 		},
 		option : function(args) {
 			this.opts = $.extend(true, {}, this.opts, args);
+		},
+		setDimensions : function() {
+			//  *** set carousel sizes 
+			this.el.itemWidth = this.opts.itemWidth;
+			this.el.itemHeight = this.opts.itemHeight;
+			this.el.carouselWidth = this.el.carouselSize * this.el.itemWidth;
+			this.el.carouselHeight = this.el.carouselSize * this.el.itemHeight;
+			// set the scroll length based on height or width of list item
+			if (this.opts.vertical === true)
+			{
+				this.el.itemDimension = this.el.itemHeight;
+			}
+			else
+			{
+				this.el.itemDimension = this.el.itemWidth;
+			}
+			this.el.scrollLength = this.el.scrollNum * this.el.itemDimension;
+		},
+		setCarouselSize : function(args) {
+			// update the options object
+			this.option(args);
+
+			// stop all animations
+			this.el.theList.stop();
+
+			// set the dimensions of the carousel again
+			this.setDimensions();
+
+			//  *** stlye carousel ***
+			this.styleList();
+			// manually set the position of the list
+			this.el.scrollPos = this.el.counter * -this.el.itemDimension;
+			if (this.opts.vertical === false) {
+				this.el.theList.css({left : this.el.scrollPos});
+			}
+			else {
+				this.el.theList.css({top : this.el.scrollPos});
+			}
 		},
 		//////////////////////////////////////////////
 		// set the start position of the carousel   //
@@ -280,38 +295,30 @@
 			 var multiplier,
 				 actualStart,
 				 startPosition;
-			 if (this.opts.startPoint !== 0)
-			 {
+			 if (this.opts.startPoint !== 0) {
 				// see if counter is larger than carouselSize and then set the actual starting position if carousel is circular
-				if (Math.abs(this.opts.startPoint) > this.el.carouselSize && this.opts.circular === true)
-				{
+				if (Math.abs(this.opts.startPoint) > this.el.carouselSize && this.opts.circular === true) {
 					// trim startPoint
-					if (this.opts.startPoint > 0)
-					{
+					if (this.opts.startPoint > 0) {
 						multiplier = Math.floor(this.opts.startPoint / this.el.carouselSize);
 						actualStart = this.opts.startPoint - (this.el.carouselSize * multiplier);
 					}
-					else
-					{
+					else {
 						multiplier = Math.ceil(this.opts.startPoint / this.el.carouselSize);
 						actualStart = (this.opts.startPoint - (this.el.carouselSize * multiplier)) + this.el.carouselSize;
 					}
 				}
 				// if starting point is outside the range of a linear carousel
-				else if ((this.opts.startPoint > this.el.carouselSize || this.opts.startPoint < 0) && this.opts.circular === false)
-				{
+				else if ((this.opts.startPoint > this.el.carouselSize || this.opts.startPoint < 0) && this.opts.circular === false) {
 					actualStart = 1;
 					//alert("starting position is outside the carousel range. Please set /'startPoint/' ");
 				}
 				// if its inside the range of the carousel
-				else
-				{
-					if (this.opts.startPoint > 0)
-					{
+				else {
+					if (this.opts.startPoint > 0) {
 						actualStart = this.opts.startPoint;
 					}
-					else
-					{
+					else {
 						actualStart = this.opts.startPoint + this.el.carouselSize;
 					}
 				}
@@ -319,37 +326,31 @@
 				// set new scrollPos
 				this.el.counter = actualStart;
 				// set the start position in pixels
-				if (this.opts.circular === true)
-				{
+				if (this.opts.circular === true) {
 					startPosition = ((this.el.counter + this.el.scrollVisible) * this.el.itemDimension) - this.el.itemDimension;
 				}
-				else
-				{
-					if (this.el.counter > (this.el.carouselSize - this.el.scrollVisible))
-					{
+				else {
+					if (this.el.counter > (this.el.carouselSize - this.el.scrollVisible)) {
 						this.el.counter = this.el.carouselSize - this.el.scrollVisible + 1;
 						$(this.opts.scrollNext).addClass("disabled");
 					}
-					if (this.el.counter > 1)
-					{
+					if (this.el.counter > 1) {
 						$(this.opts.scrollPrev).removeClass("disabled");
 					}
 					startPosition = (this.el.counter * this.el.itemDimension) - this.el.itemDimension;
 				}
 	
 				// set css position of the ul
-				if (this.opts.vertical === true)
-				{
+				if (this.opts.vertical === true) {
 					this.el.theList.css("top", -startPosition + "px");
 				}
-				else
-				{
+				else {
 					this.el.theList.css("left", -startPosition + "px");
 				}
 				// set position variables for the carousel
 				this.el.scrollPos = -startPosition;
 				this.el.animationEnd = this.el.scrollPos;
-			},
+			}
 			else {
 				this.opts.startPoint = 1;
 			}
@@ -361,43 +362,35 @@
 		findEndPos : function(direction)
 		{
 			// forward motion
-			if (direction == "next")
-			{
+			if (direction == "next") {
 				// check to see if carousel is going to scroll to the end of the list
-				if (this.opts.scrollVisible + this.el.counter + this.el.scrollNum > this.el.carouselSize)
-				{
-					if (this.opts.vertical === false)
-					{
+				if (this.opts.scrollVisible + this.el.counter + this.el.scrollNum > this.el.carouselSize) {
+					if (this.opts.vertical === false) {
 						this.el.theList.css("left", this.el.animationEnd);
 					}
 					this.el.scrollPos = (this.opts.scrollVisible * this.el.itemDimension) - (this.el.carouselSize * this.el.itemDimension);
 					$(this.opts.scrollNext).addClass("disabled");
 					this.el.counter = (this.el.carouselSize - this.opts.scrollVisible) + 1;
 				}
-				   // otherwise just scroll to the next position
-				else
-				{
+				// otherwise just scroll to the next position
+				else {
 					this.el.counter = this.el.counter + this.el.scrollNum;
 				}
 				$(this.opts.scrollPrev).removeClass("disabled");
 			}
 			// backward motion
-			else
-			{
+			else {
 				// see if carousel is going to scroll past the start
-				if (this.el.counter <= this.el.scrollNum)
-				{
+				if (this.el.counter <= this.el.scrollNum) {
 					this.el.scrollPos = 0;
 					this.el.counter = 1;
 				 }
 				 // else scroll to the previous position
-				 else
-				 {
+				 else {
 					 this.el.counter = this.el.counter - this.el.scrollNum;
 				 }
 				 $(this.opts.scrollNext).removeClass("disabled");
-				 if (this.el.counter == 1)
-				 {
+				 if (this.el.counter == 1) {
 					 $(this.opts.scrollPrev).addClass("disabled");
 				 }
 			}
@@ -406,37 +399,29 @@
 		findEndPosCircular : function(direction)
 		{
 			var resetPos;
-			if (direction == "next")
-			{
-				if ((this.el.counter + this.el.scrollNum) > this.el.carouselSize)
-				{
+			if (direction == "next") {
+				if ((this.el.counter + this.el.scrollNum) > this.el.carouselSize) {
 					this.el.counter = this.el.counter - this.el.carouselSize;
 					resetPos = this.el.scrollPos + ((this.el.carouselSize + this.el.scrollNum) * this.el.itemDimension);
 					this.el.scrollPos = resetPos - this.el.scrollLength;
-					if (this.opts.vertical === false)
-					{
+					if (this.opts.vertical === false) {
 						this.el.theList.css("left", resetPos);
 					}
-					else
-					{
+					else {
 						this.el.theList.css("top", resetPos);
 					}
 				}
 				this.el.counter = this.el.counter + this.el.scrollNum;
 			}
-			else
-			{
-				if (this.el.counter < 1)
-				{
+			else {
+				if (this.el.counter < 1) {
 					this.el.counter = this.el.counter + this.el.carouselSize;
 					resetPos = this.el.scrollPos - ((this.el.carouselSize + this.el.scrollNum) * this.el.itemDimension);
 					this.el.scrollPos = resetPos + this.el.scrollLength;
-					if (this.opts.vertical === false)
-					{
+					if (this.opts.vertical === false) {
 						this.el.theList.css("left", resetPos);
 					}
-					else
-					{
+					else {
 						this.el.theList.css("top", resetPos);
 					}
 				}
@@ -448,33 +433,27 @@
 		///////////////////////////////////////////////////////////
 		findScrollPos : function(direction)
 		{
-			if (this.opts.vertical === false)
-			{
+			if (this.opts.vertical === false) {
 				// stop previous animtation running first
 				this.el.theList.stop();
 				this.el.theList.css("left", this.el.animationEnd);
 				var leftPos = parseInt(this.el.theList.css("left"), 10);
-				if (direction == "next")
-				{
+				if (direction == "next") {
 					this.el.scrollPos = leftPos - this.el.scrollLength;
 				}
-				else
-				{
+				else {
 					this.el.scrollPos = leftPos + this.el.scrollLength;
 				}
 			}
-			else
-			{
+			else {
 				// stop previous animtation running first
 				this.el.theList.stop();
 				this.el.theList.css("top", this.el.animationEnd);
 				var topPos = parseInt(this.el.theList.css("top"), 10);
-				if (direction == "next")
-				{
+				if (direction == "next") {
 					this.el.scrollPos = topPos - this.el.scrollLength;
 				}
-				else
-				{
+				else {
 					this.el.scrollPos = topPos + this.el.scrollLength;
 				}
 			}
@@ -484,12 +463,10 @@
 		/////////////////////////////////////////////////////////
 		animateList : function()
 		{
-			if (this.opts.vertical === false)
-			{
+			if (this.opts.vertical === false) {
 				this.el.theList.animate({left : this.el.scrollPos}, this.opts.scrollSpeed);
 			}
-			else
-			{
+			else {
 				this.el.theList.animate({top : this.el.scrollPos}, this.opts.scrollSpeed);
 			}
 		},
@@ -503,38 +480,30 @@
 			var itemDimension,
 				overflow;
 			// find the item dimension for scrolling
-			if (this.opts.vertical === true)
-			{
+			if (this.opts.vertical === true) {
 				itemDimension = this.opts.itemHeight;
 			}
-			else
-			{
+			else {
 				itemDimension = this.opts.itemWidth;
 			}
 			/// set disabled states for non circular carousel
-			if (this.opts.circular === false)
-			{
-				if (newPosition > 1)
-				{
+			if (this.opts.circular === false) {
+				if (newPosition > 1) {
 					$(this.opts.scrollPrev).removeClass("disabled");
 				}
-				if (newPosition <= 1)
-				{
+				if (newPosition <= 1) {
 					$(this.opts.scrollPrev).addClass("disabled");
 				}
-				if (newPosition <= (this.el.carouselSize - (this.el.scrollVisible)))
-				{
+				if (newPosition <= (this.el.carouselSize - (this.el.scrollVisible))) {
 					$(this.opts.scrollNext).removeClass("disabled");
 				}
-				if (newPosition > (this.el.carouselSize - (this.el.scrollVisible)))
-				{
+				if (newPosition > (this.el.carouselSize - (this.el.scrollVisible))) {
 					$(this.opts.scrollNext).addClass("disabled");
 				}
 			}
 	
 			// if the new position is at the end of the non-circular carousel then stop at last visible place
-			if (newPosition > (this.el.carouselSize - (this.el.scrollVisible - 1)) && this.opts.circular === false)
-			{
+			if (newPosition > (this.el.carouselSize - (this.el.scrollVisible - 1)) && this.opts.circular === false) {
 				newPosition = this.el.carouselSize - (this.el.scrollVisible - 1);
 				this.el.counter = this.el.carouselSize - (this.el.scrollVisible - 1);
 				this.el.controlList.children(":gt(" + (newPosition-2) + ")").addClass("active");
@@ -553,37 +522,31 @@
 			var container = this;
 			this.el.rotateTimer = setTimeout(function(){container.rotation();}, (this.opts.rotatingSpeed + this.opts.rotatingPause));
 			// set up carousel timer
-			if (this.opts.rotatingDirection === "forward")
-			{
+			if (this.opts.rotatingDirection === "forward") {
 				this.findScrollPos("next");
 				//  *** find if at end position ***
 				this.findEndPosCircular("next");
 				// find next animation stop point
 				this.el.animationEnd = this.el.scrollPos;
 				//  *** animate ul to correct position ***
-				if (this.opts.vertical === false)
-				{
+				if (this.opts.vertical === false) {
 					this.el.theList.animate({left : this.el.scrollPos}, this.opts.rotatingSpeed);
 				}
-				else
-				{
+				else {
 					this.el.theList.animate({top : this.el.scrollPos}, this.opts.rotatingSpeed);
 				}
 			 }
-			 else if (this.opts.rotatingDirection === "backward")
-			 {
+			 else if (this.opts.rotatingDirection === "backward") {
 				this.findScrollPos("prev");
 				//  *** find if at end position ***
 				this.findEndPosCircular("prev");
 				// find next animation stop point
 				this.el.animationEnd = this.el.scrollPos;
 				//  *** animate ul to correct position ***
-				if (this.opts.vertical === false)
-				{
+				if (this.opts.vertical === false) {
 					this.el.theList.animate({left : this.el.scrollPos}, this.opts.rotatingSpeed);
 				}
-				else
-				{
+				else {
 					this.el.theList.animate({top : this.el.scrollPos}, this.opts.rotatingSpeed);
 				}
 			 }
@@ -620,12 +583,10 @@
 			for (var i = 0; i < controlLength; i++)
 			{
 				var nextIndex = this.el.counter + i - 1;
-				if (nextIndex >= controlItems.length && this.opts.circular === true)
-				{
+				if (nextIndex >= controlItems.length && this.opts.circular === true) {
 					nextIndex = nextIndex - controlItems.length;
 				}
-				if (nextIndex < 0)
-				{
+				if (nextIndex < 0) {
 					nextIndex = this.el.carouselSize + nextIndex;
 				}
 				this.el.controlList.children(":eq(" + nextIndex + ")").addClass("active");
@@ -669,8 +630,7 @@
 			});
 			carouselWidth = this.el.listItems * this.el.scrollVisible;
 	
-			if (this.opts.vertical === true)
-			{
+			if (this.opts.vertical === true) {
 				// do css on carousel elements
 				this.el.scrollPane.css({
 					height	: this.el.itemHeight * this.el.scrollVisible + "px",
@@ -681,8 +641,7 @@
 					width	: this.el.itemWidth + "px"
 				});
 				// if circular then correct height and position for the tail
-				if (this.opts.circular === true)
-				{
+				if (this.opts.circular === true) {
 					this.el.theList.css({
 						top		: 0 - (this.el.scrollVisible * this.el.itemHeight) + "px",
 						height	: this.el.carouselHeight + (this.el.scrollVisible * this.el.itemHeight * 2) + "px"
@@ -691,8 +650,7 @@
 				// define the end of the animation to stop multiple animations running at once
 				this.el.animationEnd = this.el.theList.css("top");
 			}
-			else
-			{
+			else {
 				this.el.scrollPane.css({
 					height	: this.el.itemHeight,
 					width	: this.el.itemWidth * this.el.scrollVisible + "px"
@@ -702,8 +660,7 @@
 					width	: this.el.carouselWidth + "px"
 				});
 				// if circular then correct width and position for the tail
-				if (this.opts.circular === true)
-				{
+				if (this.opts.circular === true) {
 					this.el.theList.css({
 						left	: 0 - (this.el.scrollVisible * this.el.itemWidth) + "px",
 						width	: this.el.carouselWidth + (this.el.scrollVisible * this.el.itemWidth * 2) + "px"
@@ -712,8 +669,7 @@
 				// define the end of the animation to stop multiple animations running at once
 				this.el.animationEnd = this.el.theList.css("left");
 			}
-			if (this.opts.circular === false)
-			{
+			if (this.opts.circular === false) {
 				$(this.el.scrollPrev).addClass("disabled");
 			}
 			// carousel now styled!!!
