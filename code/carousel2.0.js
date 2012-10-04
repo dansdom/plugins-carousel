@@ -279,7 +279,7 @@
 			//  *** stlye carousel ***
 			this.styleList();
 			// manually set the position of the list
-			this.el.scrollPos = this.el.counter * -this.el.itemDimension;
+			this.el.scrollPos = (this.el.counter - 1) * -this.el.itemDimension;
 			if (this.opts.vertical === false) {
 				this.el.theList.css({left : this.el.scrollPos});
 			}
